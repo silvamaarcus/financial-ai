@@ -1,0 +1,68 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// * Definindo tabelas do banco de dados
+// ! Para ficar como no formato abaixo, comando: npx prisma format
+// model Transaction {
+//   id String @id @default(uuid()) //* Id da transacao
+//   name String //* Nome da transacao
+//   type TransactionType //* Tipo da transacao (Deposito, Despesa, Investimento)
+//   amount Decimal @db.Decimal(10, 2) //* Montante da transacao (casas decimais)
+//   category TransactionCategory //* Categoria da transacao
+//   payment TransactionPaymentMethod //* Forma de pagamento
+//   date DateTime //* Data da transacao
+//   createdAt DateTime @default(now()) //* Data de criação da transacao
+//   updatedAt DateTime @updatedAt //* Data de atualização da transacao
+// }
+
+model Transaction {
+  id        String                   @id @default(uuid()) 
+  name      String
+  type      TransactionType 
+  amount    Decimal                  @db.Decimal(10, 2)
+  category  TransactionCategory 
+  payment   TransactionPaymentMethod 
+  date      DateTime 
+  createdAt DateTime                 @default(now()) 
+  updatedAt DateTime                 @updatedAt 
+}
+
+enum TransactionType {
+  DEPOSIT // Deposito
+  EXPENSE // Despesa
+  INVESTMENT // Investimento
+}
+
+enum TransactionCategory {
+  HOSTING // Moradia
+  TRANSPORTATION // Transporte
+  FOOD // Alimentacao
+  ENTERTAINMENT // Entretenimento
+  HEALTH // Saúde
+  UTILITY // Utilidades
+  SALARY // Renda
+  EDUCATION // Educacao
+  OTHER // Outros
+}
+
+enum TransactionPaymentMethod {
+  CREDIT_CARD // Cartao de credito
+  DEBIT_CARD // Cartao de debito
+  BANK_TRANSFER // Transferencia bancária
+  BANK_SLIP // Boleto
+  CASH // Dinheiro
+  PIX // Pix
+  OTHER // Outros
+}
